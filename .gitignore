@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+data/*.db
+data/*.db-*
+data/seed_device_token.txt
+firmware/esp32_soil_node/.pio/
+.claude/

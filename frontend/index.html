@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Soil Advisory</title>
+  <meta name="description" content="Advisory-only, sensors-only smart soil analysis and crop optimisation for Egyptian farms.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231f5a3a'/%3E%3Cpath d='M16 6c-5 4-7 8-7 12a7 7 0 0 0 14 0c0-4-2-8-7-12z' fill='%237dd3a0'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="rgba(255,255,255,.15)"/><path d="M16 5c-5.5 4.5-7.5 8.7-7.5 12.8a7.5 7.5 0 0 0 15 0C23.5 13.7 21.5 9.5 16 5z" fill="#7dd3a0"/><path d="M16 11v14M16 17l-3.5-3M16 20.5l3.5-3" stroke="#1f5a3a" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <div><span data-i18n="app_title">Smart Soil Advisory</span><small data-i18n="app_sub">Egypt · Advisory-only · Sensors-only</small></div>
+    </div>
+    <span id="live" class="live-dot" data-i18n="live">Live</span>
+    <label class="row" style="gap:6px"><span data-i18n="zone">Zone</span>
+      <select id="zoneSelect" aria-label="Zone"></select></label>
+    <button id="langBtn" type="button">العربية</button>
+    <button id="themeBtn" type="button" aria-label="Toggle theme">◐</button>
+  </header>
+  <nav class="tabs" id="tabs">
+    <a href="#/dashboard" data-view="dashboard" data-i18n="nav_dashboard">Live Dashboard</a>
+    <a href="#/lab" data-view="lab" data-i18n="nav_lab">Lab Soil & Water</a>
+    <a href="#/prescription" data-view="prescription" data-i18n="nav_rx">What to Add</a>
+    <a href="#/crops" data-view="crops" data-i18n="nav_crops">10-Crop Matcher</a>
+    <a href="#/simulator" data-view="simulator" data-i18n="nav_sim">Simulator Lab</a>
+    <a href="#/alerts" data-view="alerts" data-i18n="nav_alerts">Alerts, Reports & Hardware</a>
+  </nav>
+  <main id="view" aria-live="polite"></main>
+  <div id="toast" class="toast" role="status"></div>
+  <script type="module" src="/static/js/app.js"></script>
+</body>
+</html>

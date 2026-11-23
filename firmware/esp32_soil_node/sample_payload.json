@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "device_id": "EGY-NODE-001",
+  "farm_id": "1",
+  "zone_id": "1",
+  "timestamp_utc": "2026-11-23T08:00:00Z",
+  "hardware_health": {
+    "battery_v": 13.2,
+    "solar_charge_ma": 420,
+    "signal_rssi_dbm": -78,
+    "firmware_version": "1.0.0",
+    "fault_flags": []
+  },
+  "soil_upper": {
+    "depth_cm": 15,
+    "vwc_pct": 24.5,
+    "matric_potential_kpa": 28.0,
+    "temp_c": 23.4,
+    "ec_bulk_ds_m": 1.35,
+    "ec_pore_ds_m": 2.85,
+    "ph": 7.9,
+    "n_ppm": 42,
+    "p_ppm": 18,
+    "k_ppm": 115,
+    "orp_mv": 380,
+    "o2_pct": 16.2
+  },
+  "soil_lower": {
+    "depth_cm": 35,
+    "vwc_pct": 21.0,
+    "temp_c": 21.8,
+    "ec_pore_ds_m": 2.40
+  },
+  "microclimate": {
+    "air_temp_c": 31.5,
+    "rh_pct": 44.0,
+    "par_umol_m2_s": 1480,
+    "leaf_wetness_pct": 0.0,
+    "wind_speed_ms": 3.4,
+    "rain_mm_hr": 0.0
+  }
+}
