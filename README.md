@@ -10,11 +10,11 @@ biofertilizers). It never switches valves, relays or pumps.
 
 ## Quick start
 
-```powershell
-python run.py
-```
+**Double-click `run.bat`.** It starts the app and opens <http://127.0.0.1:8000> in your browser. Keep its window
+open while you use the app, and close it to stop. Running `python run.py` does the same thing.
 
-Then open <http://127.0.0.1:8000>. The first run creates `.venv` and installs the requirements. API docs are at `/docs`.
+The first run creates `.venv` and installs the requirements, so it needs internet and takes about a minute. API docs
+are at `/docs`. If the app is already running, `run.bat` just opens the browser.
 
 | Command | What it does |
 |---|---|
