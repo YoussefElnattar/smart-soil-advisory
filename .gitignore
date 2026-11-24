@@ -7,3 +7,5 @@ data/*.db-*
 data/seed_device_token.txt
 firmware/esp32_soil_node/.pio/
 .claude/
+docs/Study_Guide_AR.pdf
+docs/study_guide/

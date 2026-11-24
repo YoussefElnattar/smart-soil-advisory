@@ -2,8 +2,11 @@
 
 Weights (spec): Salinity 25, pH & CaCO3 20, Climate & Season 20,
 Texture & Drainage 15, Moisture & Aeration 10, Water Quality 10.
-Every sub-score is in [0, 1]; missing inputs are neutral (score 1, flagged
-"not measured") so absent optional sensors never fake a limitation.
+Only those six weights come from the spec. The sub-weights, fall-off widths and
+tier cut-offs inside each dimension are project design choices; the moisture
+sub-weights and the unknown-water-table factor were tuned on the spec test cases.
+Missing inputs score 1, except unknown chill hours (0.8) and, for perennials,
+unknown water-table depth (x0.9).
 """
 
 from __future__ import annotations
@@ -228,8 +231,8 @@ HYPOXIA = {"high": (0.3, 0.1), "medium": (0.6, 0.35), "low": (0.8, 0.6)}
 
 def score_moisture(crop, st: FieldState):
     """Live moisture is cheap to correct (irrigate), aeration and root temperature are
-    not — so, following the spec's 'lowest remediation cost' ranking goal, ORP and
-    soil temperature carry more of this dimension than instantaneous AWC/tension."""
+    not, so ORP and soil temperature carry more weight than instantaneous AWC/tension.
+    These sub-weights are not in the spec; they were tuned on case R6."""
     parts: list[tuple[float, float]] = []
     lim = []
     awc = st.awc_upper

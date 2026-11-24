@@ -1,10 +1,9 @@
 """Ten Egyptian crop profiles — encoded from spec Tables 4.1, 4.2 and 4.3.
 
-Every numeric threshold below is copied from the master specification unless the
-field name ends in ``_ext`` or the value sits inside ``EXTERNAL`` blocks. Those
-values were not given in the spec and come from standard references
-(FAO-56 Table 12 for Kc, general fertigation practice for stage modifiers);
-the UI labels them "external reference, not from spec".
+pH, ECe, depth, AWC, tension, temperature, RH and chill-hour limits are copied from
+the specification. Values ending in ``_ext`` come from outside it (Kc attributed to
+FAO-56, not checked against the publication). ``season_scores``, ``greenhouse_score``
+and the sensitivity / tolerance classes are project design choices.
 """
 
 from __future__ import annotations

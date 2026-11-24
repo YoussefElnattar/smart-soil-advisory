@@ -20,7 +20,7 @@ are at `/docs`. If the app is already running, `run.bat` just opens the browser.
 |---|---|
 | `python run.py` | Start the web app (SQLite database at `data/smart_soil.db`) |
 | `python run.py --host 0.0.0.0` | Expose the app on the LAN so a real ESP32 node can post to it |
-| `python run.py --test` | Run the automated test suite (140 tests) |
+| `python run.py --test` | Run the automated test suite (142 tests) |
 | `python run.py --hardware-pdf` | Regenerate `docs/Hardware_BOM_Wiring_Firmware.pdf` |
 
 **Try it without hardware:** open **Simulator Lab**, pick *Zone B — Simulator Sandbox*, then click a spec case (R1–R6) or
@@ -69,8 +69,9 @@ tests/                     pytest suite (§9 item 8: formulas, tanks, rules, cro
 
 ## Values that do not come from the spec
 
-The spec says *"never invent thresholds"*, but its own schema needs some numbers it does not give. These come from
-standard references. Each one is labelled **"external ref."** in the UI and marked `_ext` / `external` in code:
+The spec says *"never invent thresholds"*, but it leaves out many numbers the engine needs. The main ones are below.
+The reference values were written from general knowledge and have **not been checked against the original
+publications**. Only some carry an **"external ref."** label in the UI. Verify them before field use.
 
 - **Kc per stage**: FAO-56 Table 12 (mango and pomegranate use literature estimates; they are not in FAO-56).
 - **Silt-loam FC / PWP** (31 % / 13 %): USDA / Saxton-Rawls typical values. §6.4 lists only 5 textures, but case R6 is silt loam.
@@ -79,8 +80,17 @@ standard references. Each one is labelled **"external ref."** in the UI and mark
 - **ESP from SAR** (USSL), **dew point** (Magnus formula), **ECe ≈ 1.5 × ECw** (FAO-29), **chloride threshold** of about 142 mg/L (FAO-29).
 - **Drip wetted fraction** of 0.5 (0.6 in greenhouses), used to scale corrective N-P-K doses.
 
-Spec ranges that had to be interpolated are documented in `formulas.py`. Sulfur 300–500 kg/feddan maps linearly from
-pH 7.8 to pH 8.6, so R1 (pH 8.2) gets 400 kg, as the spec expects. Compost 15–30 m³/feddan maps from SOM 2.0 % down to 0.5 %.
+### Design choices made for this project (not from the spec or a reference)
+
+- **Crop scoring:** the spec gives the six main weights. The weights inside each dimension, the score fall-off widths,
+  season and region scores, texture similarity, hypoxia and lime sensitivity classes, and the 85 / 65 tier cut-offs were
+  chosen for this project.
+- **Tuned against the test cases:** the moisture sub-weights, and the ×0.9 factor on orchards when water-table depth is
+  unknown, were set after R6 first ranked differently from the spec. The sulfur curve (300 kg at pH 7.8 to 500 kg at pH 8.6)
+  and the +5 % leaching for ECw > 1.2 were chosen to reproduce R1 and R4.
+- **Alert cut-offs** the spec describes only in words (for example "low" or "high" VWC), the 2 °C dew-point spread and the
+  12.0 V battery limit.
+- **Compost:** 15–30 m³/feddan mapped linearly from SOM 2.0 % down to 0.5 %.
 
 ## Notes on the spec itself
 
@@ -92,10 +102,12 @@ pH 7.8 to pH 8.6, so R1 (pH 8.2) gets 400 kg, as the spec expects. Compost 15–
   leaches once ECe reaches 80 % of the limit (15–20 %), adds 5 % for brackish water (ECw > 1.2), and caps at 25 %.
   This gives R1 = 20 % and R4 = 24 %. Fertilizer is paused only when ECe *exceeds* the limit (§7.2). Below that, the app
   shows a "keep fertigation dilute" note instead.
-- **Ranking results compared with the spec's expected matches:** all six cases agree on the #1 crop. R3 scores
-  strawberries and potatoes at about 100 % (the spec says 92–97 %). In R5, mango ties grapes for #1 and citrus ranks #4
-  (pomegranate is #3). The spec does not restrict perennial crops by season, so orchards score closely in mild climates.
-  The tests check that the #1 crop is one the spec expects and that every expected crop is in the top N+2.
+- **Ranking results compared with the spec:** five of the six cases name expected crops (R2 expects alerts only).
+  R1, R3, R4 and R6 rank the expected crops first. **R5 only partly matches:** grapes and mango tie at 98.3 and grapes is
+  listed first only because ties sort alphabetically, while citrus, which the spec expects, ranks 4th (98.0).
+  R3 scores about 100 %, above the spec's 92–97 %.
+- **This is not independent validation.** The engine was tuned on these same cases, and the ranking test is lenient: it
+  accepts an expected crop anywhere in the top N+2. Real accuracy needs field data the engine has not seen.
 
 ## Hardware
 
@@ -103,5 +115,6 @@ See `docs/Hardware_BOM_Wiring_Firmware.pdf` for the bill of materials, pin-by-pi
 depths per crop, flashing and calibration. To flash the node:
 
 1. Edit `firmware/esp32_soil_node/include/config.h`: set the Wi-Fi details, `API_TOKEN` and `INGEST_URL` (your PC's LAN IP).
-2. Build and upload with `pio run -e esp32-s3 -t upload` (use `-e esp32-classic` for a classic ESP32).
+2. Build and upload with `pio run -e esp32-s3 -t upload` (`-e esp32-classic` targets a classic ESP32). Only
+   `esp32-s3` has been compiled; neither has been run on real hardware.
 3. Check the RS485 probe register map against your probe's datasheet. Vendors differ.

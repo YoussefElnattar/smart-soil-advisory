@@ -14,7 +14,10 @@ from app.services.simulator import MODES, case_bundle, random_bundle
 
 @pytest.mark.parametrize("case", [c for c in TEST_CASES if c["expected_top"]], ids=lambda c: c["id"])
 def test_ranking_matches_spec_expectation(case):
-    """#1 crop is one the spec expects, and every expected crop is in the top len(expected)+2."""
+    """#1 crop is one the spec expects, and every expected crop is in the top len(expected)+2.
+
+    Lenient regression check, not validation: the engine was tuned on these cases, and
+    R5 passes on an alphabetical tie-break (grapes = mango) with citrus in 4th place."""
     ranking = match_all(state_from_bundle(case_bundle(case["id"])))
     order = [r["slug"] for r in ranking]
     expected = case["expected_top"]

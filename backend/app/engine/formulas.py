@@ -175,7 +175,7 @@ def gypsum_requirement_kg_per_feddan(esp_now: float, esp_target: float, cec_meq_
 # Spec-range interpolations (ranges from Table 2.4 / Section 7.2) -------------
 def elemental_sulfur_kg_per_feddan(ph: float) -> float:
     """Spec gives 300–500 kg/feddan for alkaline soils. Interpolated linearly
-    from 300 at pH 7.8 to 500 at pH 8.6 (R1: pH 8.2 → 400 kg, matching the spec)."""
+    from 300 at pH 7.8 to 500 at pH 8.6 (curve chosen so that R1, pH 8.2, gives the spec's 400 kg)."""
     kg = 300 + (ph - 7.8) * 250
     return round(clamp(kg, 300, 500) / 50) * 50
 
